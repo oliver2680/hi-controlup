@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hi, ControlUp — Oliver Varcoe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #FAF8F4;
+      --surface:      #FFFFFF;
+      --text:         #1C1917;
+      --text-muted:   #6B6258;
+      --accent:       #C95F3A;
+      --accent-light: #FEF3EE;
+      --border:       #E8E3DC;
+      --radius:       14px;
+      --shadow:       0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 72px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* ── Handwriting animation ── */
+    .handwritten-name {
+      display: block;
+      width: 100%;
+      max-width: 580px;
+      margin: 0 auto 4px;
+      overflow: visible;
+    }
+
+    .handwritten-name path {
+      fill: none;
+      stroke: #1C1917;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 10.208;
+      stroke-dasharray: 10000;
+      stroke-dashoffset: 10000;
+    }
+
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 80px 0 72px;
+      text-align: center;
+    }
+
+    .hero-wave {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 16px;
+      animation: wave 2.2s ease-in-out infinite;
+      transform-origin: 70% 70%;
+    }
+
+    @keyframes wave {
+      0%,100% { transform: rotate(0deg); }
+      15%      { transform: rotate(14deg); }
+      30%      { transform: rotate(-8deg); }
+      45%      { transform: rotate(14deg); }
+      60%      { transform: rotate(-4deg); }
+      75%      { transform: rotate(8deg); }
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .company-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0F1C2E;
+      color: #FFFFFF;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 7px 16px;
+      border-radius: 100px;
+      margin: 16px auto 20px;
+    }
+
+    .company-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #3DD68C;
+      flex-shrink: 0;
+    }
+
+    .hero-intro {
+      max-width: 560px;
+      margin: 20px auto 0;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-style: italic;
+      font-family: 'Lora', serif;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+
+    p { margin-bottom: 16px; color: var(--text-muted); }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Video ── */
+    .video-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-top: 32px;
+    }
+
+    /* ── Documents ── */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 540px) { .doc-grid { grid-template-columns: 1fr; } }
+
+    .doc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .doc-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+    }
+
+    .doc-card.doc-coming-soon {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .doc-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .doc-card h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .doc-card p { font-size: 0.9rem; margin: 0; flex: 1; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      align-self: flex-start;
+    }
+
+    .btn:hover { background: #B04F2D; transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      align-self: flex-start;
+    }
+
+    /* ── About ── */
+    .languages {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0 36px;
+    }
+
+    .lang {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .lang-flag { font-size: 1.2rem; }
+
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .interest-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .interest-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .interest-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .interest-card p { font-size: 0.82rem; margin: 0; color: var(--text-muted); }
+
+    /* ── Why ControlUp ── */
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 32px 0;
+      padding: 20px 28px;
+      background: var(--accent-light);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── Numbers ── */
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    @media (max-width: 480px) { .numbers { grid-template-columns: 1fr; } }
+
+    .number-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .number-card .num {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: block;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .number-card .label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-links a:hover { text-decoration: underline; }
+    .made-with { margin-top: 28px; font-size: 0.8rem; color: var(--border); }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <div class="container">
+    <section class="hero">
+      <span class="hero-wave">👋</span>
+      <p style="font-family:'Lora',serif; font-size:clamp(1.1rem,2.5vw,1.4rem); color:var(--text-muted); margin-bottom:8px;">Hi, I'm</p>
+
+      <svg class="handwritten-name" viewBox="67 20 820 150" xmlns="http://www.w3.org/2000/svg" aria-label="Oliver Varcoe">
+        <path d="M133.034 33.6626C128.766 20.8584 106.732 37.7754 101.754 42.4208C77.5726 64.9903 29.0313 125.334 67.9726 153.15C111.227 184.046 152.962 108.225 162.436 78.0792C166.822 64.1241 172.527 36.5687 151.801 31.7858C126.029 25.8385 96.7621 70.1854 113.015 84.9606C128.311 98.8658 195.268 76.2122 210.606 63.0651C215.206 59.1229 229.83 46.0639 226.872 38.6673C221.152 24.369 200.175 60.2835 199.346 61.814C187.344 83.9718 174.322 117.424 174.322 143.14C174.322 167.207 209.075 123.762 210.606 121.87C214.44 117.134 217.575 111.774 221.867 107.482C222.811 106.538 223.425 103.41 224.369 104.354C227.148 107.133 216.237 129.011 216.237 133.756C216.237 157.016 246.946 120.071 249.393 114.363"/>
+        <path d="M238.445 63.3779C228.133 66.0886 232.746 77.0461 238.132 68.0698C238.971 66.671 240.516 62.8334 238.445 63.3779Z"/>
+        <path d="M253.146 110.61C253.146 109.432 252.521 120.732 252.521 123.747C252.521 128.498 250.278 146.859 255.023 150.022C256.01 150.679 260.797 137.849 261.279 136.884C265.83 127.782 272.749 118.811 281.298 113.112C286.938 109.352 292.595 131.431 305.695 127.501C313.017 125.304 326.659 99.3491 315.079 99.3491C302.886 99.3491 297.052 132.523 313.202 135.008C332.29 137.944 337.597 110.861 351.363 108.107C352.351 107.91 352.814 141.33 348.861 140.012C339.89 137.022 355.549 107.902 357.619 104.979C369.27 88.5313 389.838 71.1977 411.42 71.1977"/>
+        <path d="M513.39 49.3022C512.174 46.8704 511.256 38.9074 512.765 41.1696C519.745 51.6404 517.095 95.1968 517.769 109.359C518.355 121.661 517.84 134.109 520.272 146.268C520.561 147.714 519.423 150.647 520.897 150.647C525.052 150.647 523.337 142.703 524.651 138.761C527.569 130.006 531.277 121.094 535.911 113.112C547.814 92.6126 565.566 74.6992 582.205 58.0604C590.611 49.6536 599.653 42.1853 608.479 34.2882C609.666 33.2265 619.74 21.5111 619.74 23.6532"/>
+        <path d="M576.574 103.728C573.448 102.165 595.211 69.1898 602.849 76.828C611.12 85.0992 599.039 145.287 585.333 135.008C551.884 109.921 618.692 111.853 619.114 112.486"/>
+        <path d="M637.882 86.2118C635.474 85.0078 628.791 122.293 627.872 127.501C627.216 131.22 629.292 141.432 626.621 138.761C623.164 135.304 630.32 114.631 631.626 111.235C640.929 87.0476 659.282 74.556 684.175 78.7048"/>
+        <path d="M721.71 85.5862C721.71 71.2931 701.073 96.2544 699.189 99.3491C688.549 116.83 694.709 157.237 722.336 141.889"/>
+        <path d="M758.62 86.8374C759.808 84.4619 744.131 97.0232 741.729 101.226C735.883 111.457 728.668 135.899 746.108 139.387C764.039 142.973 761.122 92.6896 761.122 82.4583C761.122 81.3353 761.816 84.6112 762.373 85.5862C764.103 88.6122 766.266 91.0929 768.629 93.7189C772.683 98.2232 779.134 102.434 784.895 104.354C799.13 109.099 821.833 106.769 827.434 89.9653C835.697 65.1766 796.273 69.7855 792.402 95.5956C787.521 128.134 816.458 140.075 841.823 124.373C856.753 115.13 869.902 101.935 881.235 88.7142"/>
+      </svg>
+
+      <p class="hero-subtitle" style="margin-bottom: 0;">Account Manager (UK) &middot; EMEA</p>
+      <div style="display:flex; justify-content:center; margin: 16px auto 20px;">
+        <svg viewBox="0 0 376 72.3" xmlns="http://www.w3.org/2000/svg" aria-label="ControlUp" style="width:188px; height:auto;">
+          <path d="M54.4,64.2c0,1.9-1.2,2.9-3.6,2.9H22.2c-5.5,0-9.4-0.5-11.8-1.6c-4.1-1.7-6.2-4.7-6.2-9V42.6C4.2,35.5,9.7,32,20.6,32h30.6c2,0,3,1.1,3,3.3c0,2.2-1,3.3-3,3.3h-30c-6.2,0-9.3,1.3-9.3,3.9v13.7c0,3,3.5,4.5,10.6,4.5h29C53.4,60.6,54.4,61.8,54.4,64.2z" fill="#1C1917"/>
+          <path d="M106.1,56.2c0,4-2,6.9-5.9,8.8c-2.8,1.4-6.5,2.1-11.2,2.1H76.2c-4.2,0-8.1-0.7-11.5-2.2c-4.2-1.9-6.4-4.8-6.4-8.7V43.3c0-3.9,2.1-6.9,6.3-8.9c3.1-1.6,6.9-2.3,11.5-2.3H89c11.4,0,17.1,3.7,17.1,11.2V56.2z M98.3,56.2V42.7c0-2.8-3.2-4.2-9.5-4.2H76.2c-2.3,0-4.4,0.3-6.3,0.9c-2.6,0.9-3.9,2.1-3.9,3.9v12.9c0,1.7,1.3,2.9,4,3.7c1.8,0.5,3.9,0.8,6.3,0.8h12.5c2,0,3.9-0.3,5.7-0.9C97,58.9,98.3,57.7,98.3,56.2z" fill="#1C1917"/>
+          <path d="M159.1,64.2c0,1.9-1,2.9-2.9,2.9c-1.9,0-3-0.1-3.3-0.3c-1-0.4-1.6-1.2-1.6-2.6V41.9c0-1.6-1.3-2.6-3.9-3.1c-0.5-0.1-1.2-0.2-2.1-0.2c-1,0-2.2-0.1-3.6-0.1h-13.3c-1.3,0-2.5,0-3.4,0.1c-0.9,0-1.6,0.1-2.2,0.2c-2.5,0.5-3.7,1.5-3.7,3.1v22.3c0,1.9-1,2.9-2.9,2.9c-1.9,0-3-0.1-3.3-0.3c-1-0.4-1.5-1.2-1.5-2.6V42c0-6.7,5.9-10,17.7-10h12.6c11.7,0,17.5,3.3,17.5,9.9V64.2z" fill="#1C1917"/>
+          <path d="M191.2,35.9c0,1.9-1,2.9-2.9,2.9h-12.2v25.4c0,1.9-1,2.9-2.9,2.9c-1.9,0-3-0.1-3.3-0.3c-1-0.4-1.6-1.3-1.6-2.6V38.7c-1,0-1.9,0-2.5-0.1c-0.6,0-1.1-0.1-1.4-0.1c-1.2-0.4-1.8-1.4-1.8-3c0-1.6,0.6-2.6,1.8-3c0.3,0,0.7-0.1,1.4-0.1c0.6,0,1.5-0.1,2.5-0.1v-6.9c0-1.9,1-2.9,2.9-2.9c1.9,0,3,0.1,3.3,0.3c1,0.4,1.6,1.2,1.6,2.6v6.9h12.2C190.2,32.3,191.2,33.5,191.2,35.9z" fill="#1C1917"/>
+          <path d="M216.4,35.7c0,1.9-1.1,2.9-3.4,2.9c-0.3,0-0.8,0-1.4-0.1c-0.6,0-1.1-0.1-1.4-0.1c-5.9,0-8.9,1.5-8.9,4.4v21.3c0,1.4-0.5,2.3-1.6,2.7c-0.4,0.1-1.6,0.2-3.4,0.2c-1.8,0-2.7-1-2.7-2.9V42.9c0-4.6,2.4-7.7,7.1-9.3c2.9-1,7.2-1.5,12.8-1.5C215.4,32,216.4,33.2,216.4,35.7z" fill="#1C1917"/>
+          <path d="M265.9,56.2c0,4-2,6.9-5.9,8.8c-2.8,1.4-6.5,2.1-11.2,2.1H236c-4.2,0-8.1-0.7-11.5-2.2c-4.2-1.9-6.4-4.8-6.4-8.7V43.3c0-3.9,2.1-6.9,6.3-8.9c3.1-1.6,6.9-2.3,11.5-2.3h12.9c11.4,0,17.1,3.7,17.1,11.2V56.2z M258.1,56.2V42.7c0-2.8-3.2-4.2-9.5-4.2h-12.5c-2.3,0-4.4,0.3-6.3,0.9c-2.6,0.9-3.9,2.1-3.9,3.9v12.9c0,1.7,1.3,2.9,4,3.7c1.8,0.5,3.9,0.8,6.3,0.8h12.5c2,0,3.9-0.3,5.7-0.9C256.9,58.9,258.1,57.7,258.1,56.2z" fill="#1C1917"/>
+          <path d="M279.1,64.2c0,1.9-1,2.9-2.9,2.9c-1.9,0-3-0.1-3.3-0.3c-1-0.4-1.6-1.3-1.6-2.6V25.4c0-1.9,1-2.9,2.9-2.9c1.8,0,2.9,0.1,3.3,0.2c1,0.3,1.5,1.2,1.5,2.6V64.2z" fill="#1C1917"/>
+          <path d="M331.2,22.6c0,5.3-5.6,8-16.9,8c-0.3,0-0.7,0-1.2,0c-0.5,0-1.1,0-1.7,0c0,0-0.1,0-0.2,0h-0.2h-0.4h-0.8h-1.2c-9.5,0-14.2-2.6-14.2-7.9V6.1c0-1.5,0.7-2.2,2.2-2.2c1.4,0,2.3,0.1,2.5,0.2c0.8,0.3,1.2,0.9,1.2,2v16.4c0,2,2.8,3,8.4,3h8.7c5.5,0,8.2-1,8.2-2.9V6.1c0-1.1,0.4-1.7,1.2-2c0.2-0.1,1.1-0.2,2.5-0.2s2.2,0.7,2.2,2.2V22.6z" fill="#1C1917"/>
+          <path d="M371.8,22c0,5.5-4.2,8.2-12.6,8.2H341v5.4c0,1-0.4,1.7-1.2,2c-0.2,0.1-1.1,0.2-2.5,0.2c-1.4,0-2.2-0.7-2.2-2.2V11.8c0-3.2,1.5-5.5,4.6-6.7c1.8-0.8,4.7-1.2,8.7-1.2h9.3c9.4,0,14,2.6,14,7.8V22z M365.9,22.1V11.8c0-1.4-1.1-2.3-3.2-2.7c-0.9-0.2-2.5-0.2-4.8-0.2h-9.1c-5.2,0-7.8,1-7.8,3.1v13.4h18.2C363.7,25.4,365.9,24.3,365.9,22.1z" fill="#1C1917"/>
+          <rect fill="#1C1917" height="16.1" width="11.6" x="300.1" y="52.3"/>
+          <rect fill="#1C1917" height="21.1" width="11.6" x="317.4" y="47.3"/>
+          <rect fill="#1C1917" height="25.1" width="11.6" x="334.7" y="43.3"/>
+          <rect fill="#1C1917" height="28.8" width="11.6" x="351.9" y="39.6"/>
+        </svg>
+      </div>
+      <p class="hero-subtitle">varcoeoliver@gmail.com<br>+34 645 910 624</p>
+      <p class="hero-intro">
+        I put together this page so you can get a proper feel for who I am<br>
+        before we've had the chance to speak.
+      </p>
+    </section>
+  </div>
+
+
+  <!-- ═══════════════ VIDEO ═══════════════ -->
+  <div style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <section>
+        <p class="section-label">Say hello</p>
+        <h2>A quick intro from me</h2>
+        <p>
+          Two minutes. I cover who I am, where my experience maps to what you're building,
+          and the one thing I wanted to be upfront about before you read the CV.
+        </p>
+        <div class="video-wrapper">
+          <div style="position: relative; padding-bottom: 75%; height: 0;"><iframe src="https://www.loom.com/embed/bb59955273764f09b93429a33441b0dd" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ BY THE NUMBERS ═══════════════ -->
+  <div class="container">
+    <section>
+      <p class="section-label">Experience</p>
+      <h2>The numbers that matter for this role</h2>
+      <p>The specifics from my time at Criteo that map most directly to what you're looking for.</p>
+
+      <div class="numbers">
+        <div class="number-card">
+          <span class="num">140+</span>
+          <span class="label">Accounts managed simultaneously across EMEA</span>
+        </div>
+        <div class="number-card">
+          <span class="num">$12M+</span>
+          <span class="label">Annual spend across enterprise portfolio</span>
+        </div>
+        <div class="number-card">
+          <span class="num">6 yrs</span>
+          <span class="label">Post-sale account management at Criteo</span>
+        </div>
+      </div>
+
+      <p>
+        At Criteo I owned the full commercial cycle across both roles — onboarding, retention,
+        performance management, and renewal negotiations on multi-year contracts with rebate structures
+        tied to spend commitments and product adoption. I signed off on those commercially.
+      </p>
+      <p>
+        The portfolio management and renewal motion at ControlUp is the closest I've seen to how
+        Criteo was structured. That's not a line I'd use if I didn't mean it.
+      </p>
+    </section>
+  </div>
+
+
+  <!-- ═══════════════ DOCUMENTS ═══════════════ -->
+  <div style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <section>
+        <p class="section-label">Resources</p>
+        <h2>The documents</h2>
+        <p>My CV, written to give you the full picture of where I've been and what I've done.</p>
+
+        <div style="margin-top: 32px;">
+          <div class="doc-card" style="max-width: 360px;">
+            <div class="doc-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <h3>CV / Résumé</h3>
+            <p>Full work history, skills, and background — a decade of account management, all in one place.</p>
+            <a class="btn" href="Oliver_Varcoe_CV.pdf" download>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download CV
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ ABOUT ═══════════════ -->
+  <div class="container">
+    <section>
+      <p class="section-label">The human bit</p>
+      <h2>A bit about me</h2>
+      <p>
+        The best account relationships are built on being a real person.
+        Here's what you'd find out over a coffee.
+      </p>
+
+      <p class="section-label" style="margin-top: 32px;">I speak</p>
+      <div class="languages">
+        <div class="lang"><span class="lang-flag">🇬🇧</span> English <span style="color:var(--text-muted);font-size:0.8rem">(Native)</span></div>
+        <div class="lang"><span class="lang-flag">🇫🇷</span> French <span style="color:var(--text-muted);font-size:0.8rem">(Native)</span></div>
+        <div class="lang"><span class="lang-flag">🇪🇸</span> Spanish</div>
+        <div class="lang"><span class="lang-flag">🇭🇺</span> Hungarian</div>
+        <div class="lang"><span class="lang-flag">🇱🇹</span> Lithuanian</div>
+      </div>
+
+      <p class="section-label">Outside of work</p>
+      <div class="interests-grid">
+        <div class="interest-card">
+          <span class="interest-icon">⚽</span>
+          <div>
+            <h4>Football & Foot Volley</h4>
+            <p>Sunday league to beach courts.</p>
+          </div>
+        </div>
+        <div class="interest-card">
+          <span class="interest-icon">🏃</span>
+          <div>
+            <h4>Long Distance Running</h4>
+            <p>The kind of hobby that sounds worse than it is.</p>
+          </div>
+        </div>
+        <div class="interest-card">
+          <span class="interest-icon">✈️</span>
+          <div>
+            <h4>Travel</h4>
+            <p>Partly why I ended up speaking five languages.</p>
+          </div>
+        </div>
+        <div class="interest-card">
+          <span class="interest-icon">🍳</span>
+          <div>
+            <h4>Cooking</h4>
+            <p>Good food takes patience. So does good AM.</p>
+          </div>
+        </div>
+        <div class="interest-card">
+          <span class="interest-icon">💻</span>
+          <div>
+            <h4>Tech</h4>
+            <p>I actually enjoy learning how the products I sell work.</p>
+          </div>
+        </div>
+        <div class="interest-card">
+          <span class="interest-icon">📚</span>
+          <div>
+            <h4>Books & Movies</h4>
+            <p>Stories that make you sit with them for a while.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer>
+    <div class="container">
+      <p>Let's talk. I'm easy to reach.</p>
+      <div class="footer-links">
+        <a href="mailto:varcoeoliver@gmail.com">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          varcoeoliver@gmail.com
+        </a>
+        <a href="Oliver_Varcoe_CV.pdf" download>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download CV
+        </a>
+      </div>
+      <p class="made-with">Made for ControlUp · May 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const paths = document.querySelectorAll('.handwritten-name path');
+      let delay = 0.2;
+      paths.forEach(path => {
+        const len = path.getTotalLength();
+        path.style.strokeDasharray = len;
+        path.style.strokeDashoffset = len;
+        const duration = Math.max(0.3, len / 600);
+        path.style.animation = `draw ${duration.toFixed(2)}s ease-in-out forwards ${delay.toFixed(2)}s`;
+        delay += duration * 0.85;
+      });
+    });
+  </script>
+
+</body>
+</html>
